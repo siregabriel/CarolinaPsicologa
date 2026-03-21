@@ -30,7 +30,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-customOlive-400" />
-                <span className="text-slate-400 text-sm">555-012-3456</span>
+                <span className="text-slate-400 text-sm">33 2289 2040</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-customOlive-400" />
@@ -38,7 +38,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-customOlive-400 shrink-0 mt-0.5" />
-                <span className="text-slate-400 text-sm leading-relaxed">Consultorio 402, Edificio Salud Mental<br />Ciudad de México, CP 11000</span>
+                <span className="text-slate-400 text-sm leading-relaxed">Entre Ríos 3113, 44630<br />Guadalajara, Jalisco.</span>
               </li>
             </ul>
           </div>
