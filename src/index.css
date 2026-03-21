@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Helvetica', 'Arial', sans-serif;
+  --font-serif: 'Helvetica', 'Arial', sans-serif;
+  --animate-blob: blob 7s infinite;
+  
+  /* Olive Green */
+  --color-customOlive-50: #f4f7f0;
+  --color-customOlive-100: #e5ecd9;
+  --color-customOlive-200: #cbdab6;
+  --color-customOlive-300: #acc18b;
+  --color-customOlive-400: #8da463;
+  --color-customOlive-500: #6f8742;
+  --color-customOlive-600: #556b2f;
+  --color-customOlive-700: #425423;
+  --color-customOlive-800: #313f1b;
+  --color-customOlive-900: #222d13;
+  
+  /* Light Brown */
+  --color-customBrown-50: #fdf8f4;
+  --color-customBrown-100: #faeee5;
+  --color-customBrown-200: #f3d8c6;
+  --color-customBrown-300: #eabab1;
+  --color-customBrown-400: #df9e80;
+  --color-customBrown-500: #d37a4d;
+  --color-customBrown-600: #b8623b;
+  --color-customBrown-700: #9a4e2e;
+  --color-customBrown-800: #7e4127;
+  --color-customBrown-900: #683722;
+
+  /* Overriding Rose (Reds) to Taupe/Brown (#5f5349) */
+  --color-rose-50: #f6f5f4;
+  --color-rose-100: #eeecea;
+  --color-rose-200: #dcd7d3;
+  --color-rose-300: #c1b8b0;
+  --color-rose-400: #988b7d;
+  --color-rose-500: #786b5e;
+  --color-rose-600: #5f5349;
+  --color-rose-700: #4f453c;
+  --color-rose-800: #423932;
+  --color-rose-900: #362e29;
+}
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Ensure all CTAs, links, and buttons show the hand pointer cursor on hover */
+button, 
+a, 
+input[type="submit"], 
+input[type="button"], 
+[role="button"] {
+  cursor: pointer !important;
+}
