@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, RefreshCcw, Smile, Meh, Frown } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const questions = [
   {
