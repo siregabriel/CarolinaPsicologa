@@ -27,20 +27,14 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
+          <img src="/carolina-avila-logo.webp" alt="Logo" className="w-43 h-12" />
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="p-2 bg-customOlive-50 rounded-lg group-hover:bg-customOlive-100 transition-colors">
-              <BrainCircuit className="w-6 h-6 text-customOlive-600" />
-            </div>
-            <span className="font-serif text-xl font-medium text-slate-800 tracking-wide">
-              Mtra. Carolina Avila
-            </span>
           </Link>
 
           {/* Desktop Nav */}

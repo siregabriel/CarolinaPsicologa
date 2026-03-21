@@ -6,10 +6,10 @@ export default function Contact() {
     <section id="contact" className="py-24 bg-slate-50 relative overflow-hidden">
       {/* Decorative blobs */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-customOlive-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 transform -translate-x-1/2 -translate-y-1/2"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -17,7 +17,7 @@ export default function Contact() {
           >
             Da el primer paso hoy
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -29,7 +29,7 @@ export default function Contact() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-start">
-          
+
           {/* Booking / Calendly Mockup Area */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -47,25 +47,25 @@ export default function Contact() {
 
             {/* Simulated Calendly UI */}
             <div className="bg-slate-50 rounded-2xl border border-slate-100 p-8 flex flex-col items-center justify-center text-center flex-grow">
-               <div className="w-20 h-20 bg-customOlive-100 rounded-full flex items-center justify-center mb-6">
-                 <svg className="w-10 h-10 text-customOlive-600" viewBox="0 0 24 24" fill="currentColor">
-                   <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"></path>
-                 </svg>
-               </div>
-               <h4 className="text-xl font-bold text-slate-800 mb-2">Reserva tu espacio seguro</h4>
-               <p className="text-sm text-slate-500 mb-8 max-w-sm">
-                 Serás redirigido a la plataforma externa de Calendly para elegir tu horario y confirmar tu cita de manera inmediata y confidencial.
-               </p>
-               
-               <a 
-                 href="https://calendly.com/" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 className="w-full sm:w-auto bg-rose-600 text-white font-bold py-4 px-8 rounded-full hover:bg-rose-700 transition-colors shadow-lg shadow-rose-600/30 flex items-center justify-center gap-2 group"
-               >
-                 Abrir Agenda en Calendly
-                 <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-               </a>
+              <div className="w-20 h-20 bg-customOlive-100 rounded-full flex items-center justify-center mb-6">
+                <svg className="w-10 h-10 text-customOlive-600" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"></path>
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold text-slate-800 mb-2">Reserva tu espacio seguro</h4>
+              <p className="text-sm text-slate-500 mb-8 max-w-sm">
+                Serás redirigido a la plataforma externa de Calendly para elegir tu horario y confirmar tu cita de manera inmediata y confidencial.
+              </p>
+
+              <a
+                href="https://calendly.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto bg-rose-600 text-white font-bold py-4 px-8 rounded-full hover:bg-rose-700 transition-colors shadow-lg shadow-rose-600/30 flex items-center justify-center gap-2 group"
+              >
+                Abrir Agenda en Calendly
+                <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </a>
             </div>
           </motion.div>
 
@@ -78,11 +78,11 @@ export default function Contact() {
             className="flex flex-col gap-8 h-full"
           >
             {/* Info Cards */}
-            <div className="bg-slate-800 rounded-3xl p-8 text-white shadow-xl shadow-slate-800/20 relative overflow-hidden">
+            <div className="bg-slate-800 rounded-3xl p-8 text-white shadow-xl shadow-slate-800/20 relative overflow-hidden" style={{ backgroundColor: '#272727' }}>
               <div className="absolute bottom-0 right-0 w-64 h-64 bg-slate-700 rounded-full mix-blend-screen filter blur-3xl opacity-50 transform translate-x-1/2 translate-y-1/2"></div>
-              
+
               <h3 className="text-2xl font-bold mb-8 relative z-10">Contacto Directo</h3>
-              
+
               <div className="space-y-6 relative z-10">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-slate-700/50 rounded-xl flex items-center justify-center flex-shrink-0 border border-slate-600">
@@ -90,7 +90,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-200">Consultorio</h4>
-                    <p className="text-slate-400 mt-1 text-sm">Entre Ríos 3113, 44630<br/>Guadalajara, Jalisco.</p>
+                    <p className="text-slate-400 mt-1 text-sm">Entre Ríos 3113, 44630<br />Guadalajara, Jalisco.</p>
                   </div>
                 </div>
 
@@ -118,7 +118,7 @@ export default function Contact() {
 
             {/* Quick Message Form */}
             <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex-grow">
-               <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                 <Mail className="w-5 h-5 text-customOlive-600" />
                 Déjame un mensaje
               </h3>
@@ -126,20 +126,24 @@ export default function Contact() {
                 <input
                   type="text"
                   placeholder="Tu nombre completo"
+                  aria-label="Nombre completo"
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-customOlive-600 focus:border-transparent transition-all bg-slate-50 focus:bg-white"
                 />
                 <input
                   type="email"
                   placeholder="Tu correo electrónico"
+                  aria-label="Correo electrónico"
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-customOlive-600 focus:border-transparent transition-all bg-slate-50 focus:bg-white"
                 />
                 <textarea
                   rows="3"
                   placeholder="Tus comentarios o dudas..."
+                  aria-label="Comentarios o dudas"
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-customOlive-600 focus:border-transparent transition-all bg-slate-50 focus:bg-white resize-none"
                 ></textarea>
                 <button
                   type="submit"
+                  aria-label="Enviar mensaje"
                   className="w-full bg-slate-800 text-white font-semibold py-3.5 px-6 rounded-xl hover:bg-slate-900 transition-colors shadow-sm flex justify-center items-center gap-2"
                 >
                   Enviar <Send className="w-4 h-4" />

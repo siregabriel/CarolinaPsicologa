@@ -17,7 +17,7 @@ export default function Profile() {
             <div className="absolute inset-0 bg-customOlive-200 translate-x-4 translate-y-4 rounded-3xl" />
             <img
               src="/Carolina Avila Psicologa.webp"
-              alt="Psic. Carolina Avila"
+              alt="Psicóloga Carolina Avila en su consultorio"
               className="relative z-10 w-full h-[600px] object-cover rounded-3xl shadow-xl grayscale-[20%]"
             />
 

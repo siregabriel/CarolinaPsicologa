@@ -3,21 +3,15 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 w-full mt-auto py-16 border-t border-slate-800">
+    <footer className="bg-slate-900 w-full mt-auto py-16 border-t border-slate-800" style={{ backgroundColor: '#272727' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          
+
           <div className="col-span-1 md:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="p-2 bg-slate-800 rounded-lg">
-                <BrainCircuit className="w-6 h-6 text-customOlive-400" />
-              </div>
-              <span className="font-serif text-xl font-medium text-white tracking-wide">
-                Mtra. Carolina Avila
-              </span>
-            </Link>
+            <img src="/carolina-avila-logo.webp" alt="Logotipo Psicóloga Carolina Avila" className="w-43 h-12" />
+            <span><br></br></span>
             <p className="text-slate-400 max-w-sm font-light leading-relaxed">
-              Profesional en psicología clínica dedicada a acompañarte en tu proceso 
+              Profesional en psicología clínica dedicada a acompañarte en tu proceso
               de sanación, autodescubrimiento y bienestar emocional.
             </p>
           </div>
@@ -44,13 +38,13 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-customOlive-400 shrink-0 mt-0.5" />
-                <span className="text-slate-400 text-sm leading-relaxed">Consultorio 402, Edificio Salud Mental<br/>Ciudad de México, CP 11000</span>
+                <span className="text-slate-400 text-sm leading-relaxed">Consultorio 402, Edificio Salud Mental<br />Ciudad de México, CP 11000</span>
               </li>
             </ul>
           </div>
 
         </div>
-        
+
         <div className="border-t border-slate-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm">
             © {new Date().getFullYear()} Psicóloga Carolina Avila. Todos los derechos reservados.

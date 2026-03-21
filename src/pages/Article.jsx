@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getArticles } from '../utils/storage';
 import { ArrowLeft, Clock, Facebook, Twitter, Linkedin, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
 
 export default function Article() {
   const { id } = useParams();
@@ -26,6 +27,12 @@ export default function Article() {
 
   return (
     <article className="min-h-screen bg-white pt-32 pb-24">
+      <SEO 
+        title={article.title}
+        description={article.description || article.content?.substring(0, 160)}
+        ogImage={article.image}
+        ogUrl={window.location.href}
+      />
       {/* Header */}
       <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <Link to="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-customOlive-600 font-medium transition-colors mb-8 cursor-pointer">

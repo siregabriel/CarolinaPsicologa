@@ -4,7 +4,7 @@
   --font-sans: 'Helvetica', 'Arial', sans-serif;
   --font-serif: 'Helvetica', 'Arial', sans-serif;
   --animate-blob: blob 7s infinite;
-  
+
   /* Olive Green */
   --color-customOlive-50: #f4f7f0;
   --color-customOlive-100: #e5ecd9;
@@ -16,7 +16,7 @@
   --color-customOlive-700: #425423;
   --color-customOlive-800: #313f1b;
   --color-customOlive-900: #222d13;
-  
+
   /* Light Brown */
   --color-customBrown-50: #fdf8f4;
   --color-customBrown-100: #faeee5;
@@ -43,10 +43,21 @@
 }
 
 @keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 html {
@@ -63,10 +74,10 @@ html {
 }
 
 /* Ensure all CTAs, links, and buttons show the hand pointer cursor on hover */
-button, 
-a, 
-input[type="submit"], 
-input[type="button"], 
+button,
+a,
+input[type="submit"],
+input[type="button"],
 [role="button"] {
   cursor: pointer !important;
 }

@@ -100,6 +100,11 @@ export default function Quiz() {
 
   return (
     <div className="min-h-screen bg-slate-50 pt-28 pb-20 px-4 sm:px-6 lg:px-8 flex flex-col items-center font-sans">
+      <SEO 
+        title="¿Necesito Terapia? - Quiz de Autocuidado" 
+        description="Realiza nuestro test breve para identificar si podrías beneficiarte de un acompañamiento psicológico profesional."
+        keywords="quiz psicología, test salud mental, necesito terapia, evaluación emocional"
+      />
       
       <div className="w-full max-w-2xl">
         <Link to="/" className="inline-flex items-center text-slate-500 hover:text-customOlive-600 transition-colors mb-8 group font-medium text-sm gap-2">

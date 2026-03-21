@@ -85,7 +85,7 @@ export default function Hero() {
 
               <img
                 src="https://carolinaavila.com.mx/wp-content/uploads/2024/06/Carolina-Avila-00_0004_DSC00485-819x1024.png"
-                alt="Psicóloga Carolina Avila"
+                alt="Psicóloga Carolina Avila - Terapia Clínica"
                 className="relative z-10 w-full h-auto object-cover rounded-[3rem] md:rounded-[4rem] shadow-2xl border-4 border-white"
               />
 
