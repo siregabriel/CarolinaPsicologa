@@ -70,7 +70,8 @@ export default function Blog() {
                 <div className="relative h-48 overflow-hidden shrink-0">
                   <img 
                     src={post.image} 
-                    alt={post.title} 
+                    alt={`Imagen del artículo: ${post.title}`}
+                    loading="lazy"
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-4 left-4">
