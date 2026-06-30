@@ -61,7 +61,7 @@ export default function Philosophy() {
             className="relative w-full self-end"
           >
             <video
-              src="/videos/Sequence 01.mp4"
+              src="/videos/Sequence Tree.mp4"
               autoPlay
               muted
               loop

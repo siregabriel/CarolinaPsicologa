@@ -29,16 +29,23 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
         }`}
+      role="banner"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <img src="/carolina-avila-logo.webp" alt="Logo" className="w-43 h-12" />
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" className="flex items-center gap-2 group" aria-label="Ir a la página de inicio">
+            <img 
+              src="/carolina-avila-logo.webp" 
+              alt="Psicóloga Carolina Avila - Logo" 
+              width="172" 
+              height="48" 
+              className="w-43 h-12" 
+            />
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="Navegación principal">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -60,6 +67,9 @@ export default function Header() {
           <button
             className="md:hidden p-2 text-slate-600 hover:text-customOlive-600 transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -69,7 +79,10 @@ export default function Header() {
       {/* Mobile Nav */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
+          <motion.nav
+            id="mobile-menu"
+            role="navigation"
+            aria-label="Navegación móvil"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -94,7 +107,7 @@ export default function Header() {
                 Realizar Evaluación
               </Link>
             </div>
-          </motion.div>
+          </motion.nav>
         )}
       </AnimatePresence>
     </header>

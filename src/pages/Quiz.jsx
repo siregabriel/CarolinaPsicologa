@@ -99,12 +99,32 @@ export default function Quiz() {
 
   const result = isFinished ? calculateResult() : null;
 
+  const quizSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Test de Evaluación Emocional",
+    "description": "Cuestionario de autoevaluación para identificar si podrías beneficiarte de acompañamiento psicológico profesional",
+    "url": "https://carolinaavila.com.mx/quiz",
+    "applicationCategory": "HealthApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "MXN"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Psic. Carolina Avila"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 pt-28 pb-20 px-4 sm:px-6 lg:px-8 flex flex-col items-center font-sans">
       <SEO 
-        title="¿Necesito Terapia? - Quiz de Autocuidado" 
-        description="Realiza nuestro test breve para identificar si podrías beneficiarte de un acompañamiento psicológico profesional."
-        keywords="quiz psicología, test salud mental, necesito terapia, evaluación emocional"
+        title="¿Necesito Terapia? - Test de Evaluación Emocional" 
+        description="Test gratuito de autoevaluación psicológica. Identifica si podrías beneficiarte de terapia profesional. Resultados inmediatos y confidenciales."
+        keywords="test psicológico, quiz salud mental, necesito terapia, evaluación emocional, test ansiedad, test depresión"
+        canonical="https://carolinaavila.com.mx/quiz"
+        structData={quizSchema}
       />
       
       <div className="w-full max-w-2xl">

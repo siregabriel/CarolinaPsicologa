@@ -19,19 +19,91 @@ export default function Article() {
   if (!article) {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-8">
+        <SEO 
+          title="Artículo no encontrado" 
+          description="El artículo que buscas no está disponible."
+        />
         <h1 className="text-3xl font-bold text-slate-800 mb-4">Artículo no encontrado</h1>
         <Link to="/" className="text-customOlive-600 hover:underline font-medium cursor-pointer">Volver al inicio</Link>
       </div>
     );
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": article.title,
+    "description": article.description || article.content?.substring(0, 160),
+    "image": article.image || "https://carolinaavila.com.mx/Carolina%20Avila%20Psicologa.webp",
+    "author": {
+      "@type": "Person",
+      "name": "Psic. Carolina Avila",
+      "jobTitle": "Psicóloga Clínica",
+      "url": "https://carolinaavila.com.mx/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Psicóloga Carolina Avila",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://carolinaavila.com.mx/carolina-avila-logo.webp"
+      }
+    },
+    "datePublished": article.publishedDate || new Date().toISOString(),
+    "dateModified": article.modifiedDate || article.publishedDate || new Date().toISOString(),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://carolinaavila.com.mx/blog/${article.id}`
+    },
+    "articleSection": article.category || "Salud Mental",
+    "keywords": article.keywords || "psicología, salud mental, bienestar emocional",
+    "inLanguage": "es-MX"
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://carolinaavila.com.mx/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://carolinaavila.com.mx/#blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": article.title,
+        "item": `https://carolinaavila.com.mx/blog/${article.id}`
+      }
+    ]
+  };
+
+  const combinedSchema = {
+    "@context": "https://schema.org",
+    "@graph": [articleSchema, breadcrumbSchema]
+  };
+
   return (
     <article className="min-h-screen bg-white pt-32 pb-24">
       <SEO 
         title={article.title}
         description={article.description || article.content?.substring(0, 160)}
+        keywords={article.keywords || "psicología, salud mental, bienestar emocional"}
         ogImage={article.image}
-        ogUrl={window.location.href}
+        ogUrl={`https://carolinaavila.com.mx/blog/${article.id}`}
+        canonical={`https://carolinaavila.com.mx/blog/${article.id}`}
+        article={true}
+        publishedTime={article.publishedDate}
+        modifiedTime={article.modifiedDate || article.publishedDate}
+        author="Psic. Carolina Avila"
+        structData={combinedSchema}
       />
       {/* Header */}
       <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
