@@ -13,7 +13,7 @@ export default function Philosophy() {
   };
 
   return (
-    <section id="philosophy" className="py-24 relative overflow-hidden" style={{ backgroundColor: '#d5d7d2' }} aria-labelledby="philosophy-heading">
+    <section id="philosophy" className="py-24 relative overflow-hidden" style={{ backgroundColor: '#b6b9b6' }} aria-labelledby="philosophy-heading">
 
       {/* Background patterns */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
@@ -40,7 +40,7 @@ export default function Philosophy() {
               playsInline
               controls={false}
               aria-label="Video decorativo de árbol"
-              className="w-full h-auto mix-blend-multiply origin-bottom scale-[1.2] md:scale-[1.45] translate-y-12 md:translate-y-24 [clip-path:inset(4px)]"
+              className="w-full h-auto origin-bottom scale-[1.2] md:scale-[1.45] translate-y-12 md:translate-y-24 [clip-path:inset(1%)]"
             />
           </motion.div>
 
