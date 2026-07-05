@@ -13,7 +13,7 @@ export default function Philosophy() {
   };
 
   return (
-    <section id="philosophy" className="py-24 relative overflow-hidden" style={{ backgroundColor: '#b6b9b6' }} aria-labelledby="philosophy-heading">
+    <section id="philosophy" className="py-24 relative overflow-hidden" style={{ backgroundColor: '#c0c3c0' }} aria-labelledby="philosophy-heading">
 
       {/* Background patterns */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
