@@ -30,7 +30,7 @@ export default function Philosophy() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="relative w-full self-end"
+            className="relative w-full self-end z-0 pointer-events-none"
           >
             <video
               src="/videos/Sequence Tree.mp4"
@@ -40,12 +40,12 @@ export default function Philosophy() {
               playsInline
               controls={false}
               aria-label="Video decorativo de árbol"
-              className="w-full h-auto origin-bottom scale-[1.2] md:scale-[1.45] translate-y-12 md:translate-y-24 [clip-path:inset(1%)]"
+              className="w-full h-auto mix-blend-darken origin-bottom scale-[1.2] md:scale-[1.45] translate-y-12 md:translate-y-24 [clip-path:inset(1%)]"
             />
           </motion.div>
 
           {/* COLUMNA DERECHA: Bloque de Texto */}
-          <div className="space-y-10">
+          <div className="space-y-10 relative z-10">
 
             {/* H2 alineado a la izquierda */}
             <motion.h2
