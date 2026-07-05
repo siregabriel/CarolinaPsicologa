@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Plus, Trash2, Save, RotateCcw, CheckCircle } from 'lucide-react';
 import { getHomeContent, saveHomeContent, resetHomeContent } from '../utils/homeContent';
 import ImageUpload from '../components/admin/ImageUpload';
+import PdfUpload from '../components/admin/PdfUpload';
 
 /* ---------- Small form helpers ---------- */
 
@@ -112,8 +113,14 @@ export default function HomeEditor() {
     }));
 
   const handleSave = () => {
-    saveHomeContent(content);
-    setSuccessMsg('¡Cambios de la página de inicio guardados con éxito!');
+    try {
+      saveHomeContent(content);
+      setSuccessMsg('¡Cambios de la página de inicio guardados con éxito!');
+    } catch {
+      setSuccessMsg('');
+      window.alert('No se pudo guardar: el contenido supera el límite de almacenamiento del navegador. Reduce el tamaño de las imágenes o del PDF (o usa enlaces externos).');
+      return;
+    }
     setTimeout(() => setSuccessMsg(''), 3000);
   };
 
@@ -180,6 +187,16 @@ export default function HomeEditor() {
             <Field label="Portada (palabra destacada)" value={leadMagnet.bookHighlight} onChange={v => set('leadMagnet', 'bookHighlight', v)} />
             <Field label="Autor en portada" value={leadMagnet.bookAuthor} onChange={v => set('leadMagnet', 'bookAuthor', v)} />
           </div>
+          <PdfUpload
+            label="PDF descargable (la guía)"
+            value={leadMagnet.pdfFile}
+            fileName={leadMagnet.pdfName}
+            onChange={(file, name) => setContent(prev => ({
+              ...prev,
+              leadMagnet: { ...prev.leadMagnet, pdfFile: file, pdfName: name || prev.leadMagnet.pdfName },
+            }))}
+            hint="El visitante podrá descargarlo después de dejar su correo."
+          />
         </Section>
 
         {/* PROFILE */}

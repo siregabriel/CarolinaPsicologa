@@ -90,8 +90,8 @@ export default function Dashboard() {
       {/* Sidebar */}
       <div className="w-64 bg-slate-900 text-white flex flex-col p-6 flex-shrink-0 hidden md:flex">
         <div className="mb-10 mt-4">
-          <h2 className="text-2xl font-bold text-white tracking-tight">Dashboard</h2>
-          <p className="text-slate-400 text-sm mt-1">CarolinAvila CMS</p>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Escritorio</h2>
+          <p className="text-slate-400 text-sm mt-1">CarolinaAvila.com</p>
         </div>
         
         <nav className="flex-1 space-y-2">
@@ -119,6 +119,7 @@ export default function Dashboard() {
           <LogOut className="w-4 h-4" />
           Cerrar Sesión
         </button>
+        <div><p className="text-slate-500" style={{ color: 'lightgray', padding: '30px', 'font-size': '10px' }}>Con 🩵 por Gabriel Rosales</p></div>
       </div>
 
       {/* Main Content */}

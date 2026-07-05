@@ -80,9 +80,28 @@ export default function LeadMagnet() {
                   <div className="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg shadow-green-400/20">
                     <CheckCircle className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-left">
-                    <h4 className="font-bold text-lg text-white">¡Guía enviada con éxito!</h4>
-                    <p className="text-white/90 text-sm">Revisa tu bandeja de entrada o la carpeta de spam. En unos minutos recibirás el PDF.</p>
+                  <div className="text-left flex-1">
+                    {content.pdfFile ? (
+                      <>
+                        <h4 className="font-bold text-lg text-white">¡Listo! Tu guía te espera</h4>
+                        <p className="text-white/90 text-sm mb-4">Haz clic en el botón para descargar el PDF ahora mismo.</p>
+                        <a
+                          href={content.pdfFile}
+                          download={content.pdfFile.startsWith('data:') ? (content.pdfName || 'guia.pdf') : undefined}
+                          target={content.pdfFile.startsWith('data:') ? undefined : '_blank'}
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 bg-white text-slate-900 font-bold py-3 px-6 rounded-xl hover:bg-slate-100 transition-colors shadow-lg"
+                        >
+                          <Download className="w-5 h-5" />
+                          Descargar la guía (PDF)
+                        </a>
+                      </>
+                    ) : (
+                      <>
+                        <h4 className="font-bold text-lg text-white">¡Guía enviada con éxito!</h4>
+                        <p className="text-white/90 text-sm">Revisa tu bandeja de entrada o la carpeta de spam. En unos minutos recibirás el PDF.</p>
+                      </>
+                    )}
                   </div>
                 </motion.div>
               )}

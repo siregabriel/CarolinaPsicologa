@@ -45,6 +45,8 @@ export const defaultHomeContent = {
     bookTitle: '10 Ejercicios para calmar la',
     bookHighlight: 'Ansiedad',
     bookAuthor: 'Psic. Carolina Avila',
+    pdfFile: '', // data URL (PDF subido) o URL externa
+    pdfName: 'Guia-Carolina-Avila.pdf',
   },
   profile: {
     heading: 'Psic. Carolina Avila',
