@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { LogOut, Plus, Edit2, Trash2, CheckCircle, Save, ArrowLeft, Home } from 'lucide-react';
 import { getArticles, saveArticle, deleteArticle } from '../utils/storage';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import HomeEditor from './HomeEditor';
 import ImageUpload from '../components/admin/ImageUpload';
 
@@ -87,6 +88,10 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
+      <Helmet>
+        <title>Dashboard Admin</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       {/* Sidebar */}
       <div className="w-64 bg-slate-900 text-white flex flex-col p-6 flex-shrink-0 hidden md:flex">
         <div className="mb-10 mt-4">
@@ -239,7 +244,7 @@ export default function Dashboard() {
                           </div>
                         </td>
                         <td className="px-6 py-4 text-slate-500 font-medium">{article.category}</td>
-                        <td className="px-6 py-4 text-slate-500 font-medium">Hace un momento</td>
+                        <td className="px-6 py-4 text-slate-500 font-medium">{article.date || '—'}</td>
                         <td className="px-6 py-4 text-right">
                           <button onClick={() => handleEdit(article)} className="p-2 text-customOlive-600 hover:bg-customOlive-50 rounded-lg transition-colors cursor-pointer mr-2" title="Editar">
                             <Edit2 className="w-5 h-5" />

@@ -5,6 +5,7 @@ import Quiz from './pages/Quiz';
 import Article from './pages/Article';
 import AdminLogin from './pages/AdminLogin';
 import Dashboard from './pages/Dashboard';
+import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="quiz" element={<Quiz />} />
           <Route path="blog/:id" element={<Article />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         
         {/* Admin Routes without general layout */}

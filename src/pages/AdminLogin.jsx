@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Lock, LogIn, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 export default function AdminLogin() {
   const [password, setPassword] = useState('');
@@ -22,7 +23,11 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
-      
+      <Helmet>
+        <title>Acceso Admin</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+
       <div className="absolute top-8 left-8">
         <Link to="/" className="flex items-center gap-2 text-slate-500 hover:text-customOlive-600 font-medium transition-colors">
           <ArrowLeft className="w-4 h-4" />

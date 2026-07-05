@@ -51,12 +51,13 @@ export function saveArticle(article) {
   }
 
   if (article.id) {
-    // Update existing
+    // Update existing (keep original creation date)
     const idx = articles.findIndex(a => a.id === article.id);
-    if (idx !== -1) articles[idx] = article;
+    if (idx !== -1) articles[idx] = { ...article, date: articles[idx].date || article.date };
   } else {
     // Create new
     article.id = Date.now();
+    article.date = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
     articles.unshift(article); // Add to beginning
   }
   
