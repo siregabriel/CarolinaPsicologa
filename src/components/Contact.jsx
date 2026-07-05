@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Calendar, Clock, ExternalLink, Send } from 'lucide-react';
+import { getHomeContent } from '../utils/homeContent';
 
 export default function Contact() {
+  const content = getHomeContent().contact;
   return (
     <section id="contact" className="py-24 bg-slate-50 relative overflow-hidden">
       {/* Decorative blobs */}
@@ -15,7 +17,7 @@ export default function Contact() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-slate-800 mb-4"
           >
-            Da el primer paso hoy
+            {content.heading}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -24,7 +26,7 @@ export default function Contact() {
             transition={{ delay: 0.1 }}
             className="text-slate-600 text-lg max-w-2xl mx-auto"
           >
-            Agenda tu consulta inicial directamente en mi calendario o envíame un mensaje si tienes alguna duda previa.
+            {content.subtitle}
           </motion.p>
         </div>
 
@@ -40,9 +42,9 @@ export default function Contact() {
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
                 <Calendar className="w-6 h-6 text-customOlive-600" />
-                Agendar Cita (Calendly)
+                {content.calendlyTitle}
               </h3>
-              <p className="text-slate-600">Selecciona el día y la hora que mejor se adapten a tu rutina para nuestra primera sesión.</p>
+              <p className="text-slate-600">{content.calendlyDescription}</p>
             </div>
 
             {/* Simulated Calendly UI */}
@@ -58,12 +60,12 @@ export default function Contact() {
               </p>
 
               <a
-                href="https://calendly.com/"
+                href={content.calendlyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto bg-rose-600 text-white font-bold py-4 px-8 rounded-full hover:bg-rose-700 transition-colors shadow-lg shadow-rose-600/30 flex items-center justify-center gap-2 group"
               >
-                Abrir Agenda en Calendly
+                {content.calendlyButton}
                 <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </a>
             </div>
@@ -90,7 +92,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-200">Consultorio</h4>
-                    <p className="text-slate-400 mt-1 text-sm">Entre Ríos 3113, 44630<br />Guadalajara, Jalisco.</p>
+                    <p className="text-slate-400 mt-1 text-sm whitespace-pre-line">{content.address}</p>
                   </div>
                 </div>
 
@@ -100,7 +102,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-200">Teléfono y WhatsApp</h4>
-                    <p className="text-slate-400 mt-1 text-sm">33 2289 2040</p>
+                    <p className="text-slate-400 mt-1 text-sm">{content.phone}</p>
                   </div>
                 </div>
 
@@ -110,7 +112,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-slate-200">Email</h4>
-                    <p className="text-slate-400 mt-1 text-sm">contacto@carolinaavila.com</p>
+                    <p className="text-slate-400 mt-1 text-sm">{content.email}</p>
                   </div>
                 </div>
               </div>
@@ -120,7 +122,7 @@ export default function Contact() {
             <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm flex-grow">
               <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                 <Mail className="w-5 h-5 text-customOlive-600" />
-                Déjame un mensaje
+                {content.formTitle}
               </h3>
               <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                 <input

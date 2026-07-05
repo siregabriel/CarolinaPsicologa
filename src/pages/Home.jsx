@@ -9,8 +9,13 @@ import FAQ from '../components/FAQ';
 import Contact from '../components/Contact';
 import WhatsAppButton from '../components/WhatsAppButton';
 import SEO from '../components/SEO';
+import { getHomeContent } from '../utils/homeContent';
 
 export default function Home() {
+  // Keep structured data in sync with admin-editable contact info
+  const contactContent = getHomeContent().contact;
+  const phoneE164 = '+52' + (contactContent.phone || '').replace(/\D/g, '');
+
   // Enhanced structured data with multiple schemas
   const structuredData = {
     "@context": "https://schema.org",
@@ -28,8 +33,8 @@ export default function Home() {
           "height": 630
         },
         "url": "https://carolinaavila.com.mx/",
-        "telephone": "+523322892040",
-        "email": "contacto@carolinaavila.com",
+        "telephone": phoneE164,
+        "email": contactContent.email,
         "priceRange": "$$",
         "address": {
           "@type": "PostalAddress",
@@ -136,7 +141,7 @@ export default function Home() {
         "@id": "https://carolinaavila.com.mx/#localbusiness",
         "name": "Consultorio de Psicología Carolina Avila",
         "image": "https://carolinaavila.com.mx/Carolina%20Avila%20Psicologa.webp",
-        "telephone": "+523322892040",
+        "telephone": phoneE164,
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Entre Ríos 3113",

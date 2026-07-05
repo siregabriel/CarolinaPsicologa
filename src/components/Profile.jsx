@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Award, GraduationCap, Clock, CheckCircle2 } from 'lucide-react';
+import { getHomeContent } from '../utils/homeContent';
 
 export default function Profile() {
+  const content = getHomeContent().profile;
   return (
     <section id="profile" className="py-24 bg-slate-50 overflow-hidden" aria-labelledby="profile-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,7 +18,7 @@ export default function Profile() {
           >
             <div className="absolute inset-0 bg-customOlive-200 translate-x-4 translate-y-4 rounded-3xl" aria-hidden="true" />
             <img
-              src="/Carolina Avila Psicologa.webp"
+              src={content.image}
               alt="Psicóloga Carolina Avila en su consultorio profesional de Guadalajara"
               width="600"
               height="600"
@@ -38,8 +40,8 @@ export default function Profile() {
                   <Clock className="w-6 h-6 text-customOlive-600" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-slate-900">+6</p>
-                  <p className="text-sm text-slate-500 font-medium">Años de Experiencia</p>
+                  <p className="text-2xl font-bold text-slate-900">{content.experienceYears}</p>
+                  <p className="text-sm text-slate-500 font-medium">{content.experienceLabel}</p>
                 </div>
               </div>
             </motion.div>
@@ -52,15 +54,10 @@ export default function Profile() {
             viewport={{ once: true }}
           >
             <h2 id="profile-heading" className="text-3xl md:text-5xl font-serif text-slate-900 mb-6">
-              Psic. Carolina Avila
+              {content.heading}
             </h2>
             <p className="text-lg text-slate-600 font-light mb-8 leading-relaxed">
-              Comprendo lo difícil que puede ser compartir los pensamientos y sentimientos
-              más profundos. Por lo tanto, mi objetivo es crear un ambiente cálido y
-              empático que te ayude a redescubrir tu propia voz y puedas explorar tu potencial.
-              Con amabilidad, presencia y profundo respeto es cómo podemos encontrar un
-              nuevo sentido al pasado, vivir sanamente el presente y trazar una ruta más
-              satisfactoria para el futuro.
+              {content.intro}
             </p>
 
             <div className="space-y-6 mb-10">
@@ -69,9 +66,8 @@ export default function Profile() {
                   <GraduationCap className="w-6 h-6 text-customOlive-600" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-slate-900">Formación Académica</h3>
-                  <p className="text-slate-600 font-light">Licenciada En Psicología Con 6 Años De Experiencia Con Especialidad En:
-                    Psicoterapia Actitudinal.</p>
+                  <h3 className="text-lg font-medium text-slate-900">{content.educationTitle}</h3>
+                  <p className="text-slate-600 font-light">{content.educationText}</p>
                 </div>
               </div>
 
@@ -80,9 +76,9 @@ export default function Profile() {
                   <Award className="w-6 h-6 text-customOlive-600" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-slate-900">Especialidades</h3>
+                  <h3 className="text-lg font-medium text-slate-900">{content.specialtiesTitle}</h3>
                   <ul className="space-y-2 mt-2" role="list">
-                    {['Terapia Cognitivo-Conductual', 'Manejo de Ansiedad y Depresión', 'Intervención en Crisis', 'Terapia de Pareja y Familiar'].map(item => (
+                    {content.specialties.map(item => (
                       <li key={item} className="flex items-center gap-2 text-slate-600 font-light">
                         <CheckCircle2 className="w-4 h-4 text-customBrown-500" aria-hidden="true" />
                         {item}
@@ -97,7 +93,7 @@ export default function Profile() {
               href="#contact"
               className="inline-flex justify-center items-center px-8 py-4 bg-slate-900 text-white rounded-full font-medium hover:bg-slate-800 transition-colors"
             >
-              Conoce cómo puedo ayudarte
+              {content.ctaText}
             </a>
           </motion.div>
 

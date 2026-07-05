@@ -1,6 +1,52 @@
+# Crawlers tradicionales
 User-agent: *
 Allow: /
-Disallow: /admin/
+Disallow: /admin
 Disallow: /admin/dashboard
 
+# Crawlers de IA / LLMs — permitidos explícitamente (excepto zona admin)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /admin
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin
+
 Sitemap: https://carolinaavila.com.mx/sitemap.xml
+
+# Resumen del sitio para LLMs: https://carolinaavila.com.mx/llms.txt

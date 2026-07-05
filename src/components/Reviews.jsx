@@ -1,52 +1,19 @@
 import { motion } from 'framer-motion';
 import { Star, CheckCircle2, ExternalLink } from 'lucide-react';
+import { getHomeContent } from '../utils/homeContent';
 
-const searchUrl = 'https://www.google.com/search?q=Psic%C3%B3loga+Carolina+%C3%81vila+Guadalajara+opiniones';
-
-const reviews = [
-  {
-    id: 1,
-    name: 'Cecy CZ',
-    date: 'hace 2 meses',
-    text: 'Altamente recomendada. Es una profesional con gran ética y un trato profundamente humano. Ofrece un excelente acompañamiento terapéutico, escucha con atención y te invita a conocerte mejor, brindándote herramientas valiosas para crecer y mejorar día a día como persona.',
-    rating: 5,
-    initial: 'C',
-    color: 'bg-customBrown-600',
-    link: searchUrl
-  },
-  {
-    id: 2,
-    name: 'Sofia Perez',
-    date: 'hace 4 meses',
-    text: 'Excelente experiencia!!! Caro es una chica muy profesional, agradable y ha sido de mucha ayuda. La recomiendo ampliamente.',
-    rating: 5,
-    initial: 'S',
-    color: 'bg-blue-600',
-    link: searchUrl
-  },
-  {
-    id: 3,
-    name: 'Estefannia Gc',
-    date: 'hace 1 mes',
-    text: 'Súper recomendada! alto nivel de profesionalismo y compromiso con sus pacientes. trato humano, escucha activa y capacidad para guiar el proceso terapéutico.',
-    rating: 5,
-    initial: 'E',
-    color: 'bg-rose-600',
-    link: searchUrl
-  },
-  {
-    id: 4,
-    name: 'Nayeli galvan bautista',
-    date: 'hace 6 meses',
-    text: 'Mi experiencia con Carolina ha sido muy buena, me hace sentir en confianza de poder platicar sin sentirme juzgada. Me ha enseñado herramientas para cambiar patrones, fortalecer mi autoestima y mejorar mi calidad de vida.',
-    rating: 5,
-    initial: 'N',
-    color: 'bg-customBrown-600',
-    link: searchUrl
-  }
-];
+const avatarColors = ['bg-customBrown-600', 'bg-blue-600', 'bg-rose-600', 'bg-customOlive-600'];
 
 export default function Reviews() {
+  const content = getHomeContent().reviews;
+  const searchUrl = content.googleUrl;
+  const reviews = content.items.map((item, i) => ({
+    ...item,
+    id: i + 1,
+    initial: (item.name || '?').charAt(0).toUpperCase(),
+    color: avatarColors[i % avatarColors.length],
+    link: searchUrl,
+  }));
   return (
     <section className="py-24 bg-slate-50 border-y border-slate-100 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,17 +32,17 @@ export default function Reviews() {
             </div>
             <div>
               <h2 className="text-2xl font-semibold text-slate-800 flex items-center gap-2">
-                Valoraciones de pacientes
+                {content.heading}
                 <CheckCircle2 className="w-5 h-5 text-blue-500" />
               </h2>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-lg font-bold text-slate-700">5.0</span>
+                <span className="text-lg font-bold text-slate-700">{content.rating}</span>
                 <div className="flex">
                   {[1,2,3,4,5].map(i => (
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <span className="text-sm text-slate-500 ml-1">Basado en reseñas reales</span>
+                <span className="text-sm text-slate-500 ml-1">{content.subtitle}</span>
               </div>
             </div>
           </motion.div>

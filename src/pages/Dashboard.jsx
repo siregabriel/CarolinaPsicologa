@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LogOut, Plus, Edit2, Trash2, CheckCircle, Image as ImageIcon, Save, ArrowLeft } from 'lucide-react';
+import { LogOut, Plus, Edit2, Trash2, CheckCircle, Save, ArrowLeft, Home } from 'lucide-react';
 import { getArticles, saveArticle, deleteArticle } from '../utils/storage';
 import { Link } from 'react-router-dom';
+import HomeEditor from './HomeEditor';
+import ImageUpload from '../components/admin/ImageUpload';
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('blog'); // 'blog' | 'home'
   const [articles, setArticles] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
@@ -92,9 +95,19 @@ export default function Dashboard() {
         </div>
         
         <nav className="flex-1 space-y-2">
-          <button className="flex items-center gap-3 w-full px-4 py-3 bg-slate-800 text-white rounded-xl font-medium cursor-pointer">
+          <button
+            onClick={() => setActiveTab('blog')}
+            className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium transition-colors cursor-pointer ${activeTab === 'blog' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'}`}
+          >
             <Edit2 className="w-4 h-4" />
             Blog Artículos
+          </button>
+          <button
+            onClick={() => setActiveTab('home')}
+            className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium transition-colors cursor-pointer ${activeTab === 'home' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'}`}
+          >
+            <Home className="w-4 h-4" />
+            Página de Inicio
           </button>
           <Link to="/" className="flex items-center gap-3 w-full px-4 py-3 text-slate-400 hover:text-white rounded-xl font-medium transition-colors cursor-pointer">
             <ArrowLeft className="w-4 h-4" />
@@ -113,9 +126,11 @@ export default function Dashboard() {
         
         <div className="flex justify-between items-center mb-10">
           <h1 className="text-3xl font-bold text-slate-900">
-            {isEditing ? (currentId ? 'Editar Artículo' : 'Nuevo Artículo') : 'Gestión de Blog'}
+            {activeTab === 'home'
+              ? 'Editar Página de Inicio'
+              : isEditing ? (currentId ? 'Editar Artículo' : 'Nuevo Artículo') : 'Gestión de Blog'}
           </h1>
-          {!isEditing && (
+          {activeTab === 'blog' && !isEditing && (
             <button 
               onClick={handleCreateNew}
               className="flex items-center gap-2 bg-customOlive-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-customOlive-700 transition cursor-pointer shadow-md shadow-customOlive-600/20"
@@ -126,14 +141,16 @@ export default function Dashboard() {
           )}
         </div>
 
-        {successMsg && (
+        {activeTab === 'blog' && successMsg && (
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8 p-4 bg-green-100 text-green-800 rounded-xl flex items-center gap-2 font-medium">
             <CheckCircle className="w-5 h-5 text-green-600" />
             {successMsg}
           </motion.div>
         )}
 
-        {isEditing ? (
+        {activeTab === 'home' ? (
+          <HomeEditor />
+        ) : isEditing ? (
           /* EDITOR FORM */
           <motion.form 
             initial={{ opacity: 0 }} 
@@ -164,14 +181,12 @@ export default function Dashboard() {
               </div>
               
               <div className="space-y-6">
-                <label className="block text-sm font-semibold text-slate-700 mb-2">URL de Imagen de Portada</label>
-                <div className="flex gap-4 items-center">
-                  <div className="w-20 h-20 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden border border-slate-200 flex-shrink-0">
-                    {image ? <img src={image} className="w-full h-full object-cover" /> : <ImageIcon className="text-slate-400" />}
-                  </div>
-                  <input type="url" value={image} onChange={e => setImage(e.target.value)} required placeholder="https://unsplash..." className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-customOlive-600 bg-slate-50"/>
-                </div>
-                <p className="text-xs text-slate-400 -mt-4">Pega el link de una imagen. Te recomendamos Unsplash.</p>
+                <ImageUpload
+                  label="Imagen de Portada"
+                  value={image}
+                  onChange={setImage}
+                  hint="Sube una imagen desde tu equipo o pega un link (p. ej. Unsplash)."
+                />
               </div>
             </div>
 

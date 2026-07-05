@@ -1,36 +1,21 @@
 import { motion } from 'framer-motion';
-import { User, Users, Brain, HeartHandshake } from 'lucide-react';
+import { User, Users, Brain } from 'lucide-react';
+import { getHomeContent } from '../utils/homeContent';
 
-const services = [
-  {
-    icon: User,
-    title: 'Psicoterapia Para Adultos',
-    description: 'La psicoterapia para adultos es un proceso transformador que brinda apoyo y herramientas para enfrentar desafíos emocionales y mentales, promoviendo el bienestar y el crecimiento personal a través de un enfoque comprensivo y personalizado.',
-    color: 'bg-customOlive-50 text-customOlive-700 border-customOlive-100',
-  },
-  {
-    icon: Users,
-    title: 'Sesiones Presenciales y Online',
-    description: 'Nuestras sesiones, tanto presenciales como online, ofrecen flexibilidad y accesibilidad, permitiendo a los individuos recibir apoyo terapéutico de alta calidad desde cualquier lugar, adaptándose a sus necesidades y horarios.',
-    color: 'bg-customBrown-50 text-customBrown-700 border-customBrown-100',
-  },
-  {
-    icon: Brain,
-    title: 'Especialización En:',
-    description: (
-      <ul className="list-disc pl-5 space-y-1">
-        <li>Trastornos de Ansiedad</li>
-        <li>Trastornos del Estado de Ánimo</li>
-        <li>Trastornos de la Conducta Alimentaria</li>
-        <li>Trastornos de la Personalidad</li>
-        <li>Trastornos de la Conducta Alimentaria</li>
-      </ul>
-    ),
-    color: 'bg-customBrown-50 text-customBrown-700 border-customBrown-100',
-  },
+const icons = [User, Users, Brain];
+const colors = [
+  'bg-customOlive-50 text-customOlive-700 border-customOlive-100',
+  'bg-customBrown-50 text-customBrown-700 border-customBrown-100',
+  'bg-customBrown-50 text-customBrown-700 border-customBrown-100',
 ];
 
 export default function Services() {
+  const content = getHomeContent().services;
+  const services = content.items.map((item, i) => ({
+    ...item,
+    icon: icons[i % icons.length],
+    color: colors[i % colors.length],
+  }));
   return (
     <section id="services" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,7 +27,7 @@ export default function Services() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-serif text-slate-900 mb-6"
           >
-            Servicios Ofrecidos
+            {content.heading}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -51,16 +36,17 @@ export default function Services() {
             transition={{ delay: 0.1 }}
             className="text-lg text-slate-600 font-light"
           >
-            “Cualquier Desafío Que La Vida Nos Presenta Es Una Oportunidad Para Conocernos”.
+            {content.subheading}
           </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => {
             const Icon = service.icon;
+            const lines = (service.description || '').split('\n').filter(Boolean);
             return (
               <motion.div
-                key={service.title}
+                key={`${service.title}-${index}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -71,9 +57,15 @@ export default function Services() {
                   <Icon className="w-7 h-7" />
                 </div>
                 <h3 className="text-xl font-medium text-slate-900 mb-3">{service.title}</h3>
-                <p className="text-slate-600 font-light leading-relaxed text-sm">
-                  {service.description}
-                </p>
+                {lines.length > 1 ? (
+                  <ul className="list-disc pl-5 space-y-1 text-slate-600 font-light leading-relaxed text-sm">
+                    {lines.map((line, i) => <li key={i}>{line}</li>)}
+                  </ul>
+                ) : (
+                  <p className="text-slate-600 font-light leading-relaxed text-sm">
+                    {service.description}
+                  </p>
+                )}
               </motion.div>
             )
           })}

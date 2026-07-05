@@ -1,40 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-
-const therapies = [
-  {
-    title: "Psicoanálisis",
-    description: "Atiende el inconsciente, explorando los deseos y conflictos profundos que afectan la conducta."
-  },
-  {
-    title: "Conductismo",
-    description: "Se enfoca en las conductas observables, facilitando la modificación de comportamientos a través de técnicas específicas."
-  },
-  {
-    title: "Humanismo",
-    description: "Pone énfasis en los sentimientos y emociones, promoviendo la autorrealización y el crecimiento personal."
-  },
-  {
-    title: "Logoterapia",
-    description: "Se centra en abordar el vacío existencial, ayudando al individuo a encontrar un sentido y propósito en su vida."
-  },
-  {
-    title: "Terapia Racional Emotiva",
-    description: "Se dedica a las creencias cognitivas, cuestionando y reformulando pensamientos irracionales para fomentar un bienestar emocional."
-  },
-  {
-    title: "Terapia Familiar Sistémica",
-    description: "Analiza las normas familiares y sistemas, trabajando en las dinámicas relacionales para mejorar la funcionalidad familiar."
-  },
-  {
-    title: "Psicoespiritualidad",
-    description: "Atiende la cualidad psicológica superior del individuo, integrando su dimensión humana y espiritual para lograr un equilibrio profundo y significativo."
-  }
-];
+import { getHomeContent } from '../utils/homeContent';
 
 export default function Philosophy() {
   const [openIndex, setOpenIndex] = useState(null);
+  const content = getHomeContent().philosophy;
+  const therapies = content.therapies;
 
   const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -84,7 +56,7 @@ export default function Philosophy() {
               transition={{ delay: 0.3 }}
               className="text-4xl md:text-4xl font-serif text-black leading-tight"
             >
-              Acerca De Las Sesiones Psicoterapéuticas
+              {content.heading}
             </motion.h2>
 
             {/* Texto alineado a la izquierda con Acordeón */}
@@ -96,8 +68,7 @@ export default function Philosophy() {
               className="space-y-6 text-black font-light text-lg md:text-l leading-relaxed"
             >
               <p>
-                El proceso se apega a diversas corrientes y abordajes terapéuticos que permiten
-                una comprensión y tratamiento integral del individuo. Además, incorpora varios abordajes específicos:
+                {content.intro}
               </p>
 
               <div className="border-t border-black/10 mt-6">
