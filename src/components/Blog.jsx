@@ -49,10 +49,7 @@ export default function Blog() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <Link to="/admin" className="text-customOlive-600 font-semibold hover:text-customOlive-700 flex items-center gap-2 group transition-colors cursor-pointer text-sm bg-customOlive-50 px-4 py-2 rounded-full border border-customOlive-100">
-              Portal Admin
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            
           </motion.div>
         </div>
 
