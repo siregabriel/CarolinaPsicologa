@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function WhatsAppButton() {
   const phoneNumber = '+5213322892040'; // Placeholder phone number
-  const message = 'Hola Mtra. Carolina, me gustaría obtener más información sobre sus servicios de terapia.';
+  const message = 'Hola Psic. Carolina, me gustaría obtener más información sobre sus servicios de terapia.';
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (
