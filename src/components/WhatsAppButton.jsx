@@ -2,7 +2,7 @@ import { MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function WhatsAppButton() {
-  const phoneNumber = '+5213312345678'; // Placeholder phone number
+  const phoneNumber = '+5213322892040'; // Placeholder phone number
   const message = 'Hola Mtra. Carolina, me gustaría obtener más información sobre sus servicios de terapia.';
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 

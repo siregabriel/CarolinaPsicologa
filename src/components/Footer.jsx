@@ -54,6 +54,8 @@ export default function Footer() {
         <div className="border-t border-slate-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm">
             © {new Date().getFullYear()} Psicóloga Carolina Avila. Todos los derechos reservados.
+              <img src="/logo-grm-small.png" alt="Logotipo Gabriel Rosales" width="80" height="80" className="w-8 h-8 padding-top:20px;" 
+          />
           </p>
           <div className="flex gap-6">
             <Link to="/quiz" className="text-customOlive-400 hover:text-customOlive-300 text-sm font-medium transition-colors">
