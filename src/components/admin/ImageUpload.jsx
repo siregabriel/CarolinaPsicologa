@@ -7,7 +7,8 @@ async function uploadToStorage(dataUrl) {
   const blob = await (await fetch(dataUrl)).blob();
   const ext = blob.type.includes('webp') ? 'webp' : 'jpg';
   const path = `images/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const { error } = await supabase.storage.from('media').upload(path, blob, { contentType: blob.type });
+  // cacheControl: 1 año — los nombres de archivo son únicos, así que es seguro cachear "para siempre"
+  const { error } = await supabase.storage.from('media').upload(path, blob, { contentType: blob.type, cacheControl: '31536000' });
   if (error) throw new Error(`No se pudo subir la imagen: ${error.message}`);
   const { data } = supabase.storage.from('media').getPublicUrl(path);
   return data.publicUrl;

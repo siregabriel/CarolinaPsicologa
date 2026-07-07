@@ -263,8 +263,13 @@ async function loadFromSupabase() {
       .maybeSingle();
     if (error) throw error;
     if (data?.value) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data.value));
-      invalidate();
+      const incoming = JSON.stringify(data.value);
+      // Only re-render if the published content actually changed
+      // (avoids image flicker/reload on every visit).
+      if (incoming !== localStorage.getItem(STORAGE_KEY)) {
+        localStorage.setItem(STORAGE_KEY, incoming);
+        invalidate();
+      }
     }
   } catch (e) {
     console.warn('No se pudo cargar el contenido desde Supabase:', e.message);

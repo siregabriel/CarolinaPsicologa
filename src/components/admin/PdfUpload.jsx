@@ -35,7 +35,7 @@ export default function PdfUpload({ label, value, fileName, onChange, hint }) {
     if (isSupabaseEnabled) {
       // Upload to Supabase Storage → real URL, visible to all visitors
       const path = `pdfs/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-      supabase.storage.from('media').upload(path, file, { contentType: 'application/pdf' })
+      supabase.storage.from('media').upload(path, file, { contentType: 'application/pdf', cacheControl: '31536000' })
         .then(({ error: upErr }) => {
           if (upErr) throw new Error(upErr.message);
           const { data } = supabase.storage.from('media').getPublicUrl(path);

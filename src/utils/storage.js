@@ -96,8 +96,12 @@ async function loadFromSupabase() {
       .maybeSingle();
     if (error) throw error;
     if (Array.isArray(data?.value)) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data.value));
-      invalidate();
+      const incoming = JSON.stringify(data.value);
+      // Only re-render if the published articles actually changed.
+      if (incoming !== localStorage.getItem(STORAGE_KEY)) {
+        localStorage.setItem(STORAGE_KEY, incoming);
+        invalidate();
+      }
     }
   } catch (e) {
     console.warn('No se pudieron cargar los artículos desde Supabase:', e.message);

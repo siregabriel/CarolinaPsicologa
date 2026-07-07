@@ -87,6 +87,8 @@ export default function Hero() {
               <img
                 src={content.image}
                 alt="Psicóloga Carolina Avila - Terapia Clínica"
+                fetchPriority="high"
+                decoding="async"
                 className="relative z-10 w-full h-auto object-cover rounded-[3rem] md:rounded-[4rem] shadow-2xl border-4 border-white"
               />
 
