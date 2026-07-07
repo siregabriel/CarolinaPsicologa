@@ -1,3 +1,9 @@
+// Blog articles store.
+// With Supabase configured: stored in the `site_content` table (visible to ALL visitors).
+// Without Supabase: falls back to localStorage (local/demo mode).
+import { useSyncExternalStore } from 'react';
+import { supabase, isSupabaseEnabled } from './supabaseClient';
+
 // Default seeds for the blog
 const defaultArticles = [
   {
@@ -18,7 +24,7 @@ const defaultArticles = [
     category: 'Relaciones',
     readTime: '4 min de lectura',
     image: 'https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    color: 'bg-customOlive-100 text-customOlive-700' // updated to customOlive
+    color: 'bg-customOlive-100 text-customOlive-700'
   },
   {
     id: 3,
@@ -28,22 +34,94 @@ const defaultArticles = [
     category: 'Crecimiento Personal',
     readTime: '6 min de lectura',
     image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    color: 'bg-customBrown-100 text-customBrown-700' // updated to customBrown
+    color: 'bg-customBrown-100 text-customBrown-700'
   }
 ];
 
+const STORAGE_KEY = 'carolina_articles';
+
 export function getArticles() {
-  const data = localStorage.getItem('carolina_articles');
-  if (!data) {
-    localStorage.setItem('carolina_articles', JSON.stringify(defaultArticles));
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (!data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultArticles));
+      return defaultArticles;
+    }
+    return JSON.parse(data);
+  } catch {
     return defaultArticles;
   }
-  return JSON.parse(data);
 }
 
-export function saveArticle(article) {
+/* ---------- Reactive store ---------- */
+
+let cache = null;
+const listeners = new Set();
+
+function invalidate() {
+  cache = null;
+  listeners.forEach(fn => fn());
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY) invalidate();
+  });
+}
+
+function subscribe(fn) {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
+
+function getSnapshot() {
+  if (cache === null) cache = getArticles();
+  return cache;
+}
+
+/** Hook: returns the article list and re-renders automatically when it changes. */
+export function useArticles() {
+  return useSyncExternalStore(subscribe, getSnapshot);
+}
+
+/* ---------- Supabase sync ---------- */
+
+async function loadFromSupabase() {
+  if (!isSupabaseEnabled) return;
+  try {
+    const { data, error } = await supabase
+      .from('site_content')
+      .select('value')
+      .eq('key', 'articles')
+      .maybeSingle();
+    if (error) throw error;
+    if (Array.isArray(data?.value)) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data.value));
+      invalidate();
+    }
+  } catch (e) {
+    console.warn('No se pudieron cargar los artículos desde Supabase:', e.message);
+  }
+}
+
+if (typeof window !== 'undefined') {
+  loadFromSupabase();
+}
+
+async function persist(articles) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(articles));
+  invalidate();
+  if (isSupabaseEnabled) {
+    const { error } = await supabase
+      .from('site_content')
+      .upsert({ key: 'articles', value: articles, updated_at: new Date().toISOString() });
+    if (error) throw new Error(`No se pudo publicar en Supabase: ${error.message}`);
+  }
+}
+
+export async function saveArticle(article) {
   const articles = getArticles();
-  
+
   // Basic color mapping based on category for aesthetics inside Blog cards
   if (!article.color) {
     const cats = ['bg-rose-100 text-rose-700', 'bg-customOlive-100 text-customOlive-700', 'bg-customBrown-100 text-customBrown-700'];
@@ -60,12 +138,11 @@ export function saveArticle(article) {
     article.date = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
     articles.unshift(article); // Add to beginning
   }
-  
-  localStorage.setItem('carolina_articles', JSON.stringify(articles));
+
+  await persist(articles);
 }
 
-export function deleteArticle(id) {
-  const articles = getArticles();
-  const filtered = articles.filter(a => a.id !== id);
-  localStorage.setItem('carolina_articles', JSON.stringify(filtered));
+export async function deleteArticle(id) {
+  const filtered = getArticles().filter(a => a.id !== id);
+  await persist(filtered);
 }

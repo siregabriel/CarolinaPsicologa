@@ -1,23 +1,10 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getArticles } from '../utils/storage';
+import { useArticles } from '../utils/storage';
 
 export default function Blog() {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    // Load articles from localStorage on mount
-    setPosts(getArticles());
-    
-    // Listen for storage changes if updated from another tab/dashboard
-    const handleStorageChange = () => {
-      setPosts(getArticles());
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+  const posts = useArticles();
 
   return (
     <section className="py-24 bg-slate-50 border-t border-slate-100" id="blog">

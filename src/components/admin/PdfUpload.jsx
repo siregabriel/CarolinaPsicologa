@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
 import { Upload, Link as LinkIcon, FileText, X, Loader2, CheckCircle } from 'lucide-react';
+import { supabase, isSupabaseEnabled } from '../../utils/supabaseClient';
 
-// Límite del archivo original (~2.5MB). En base64 crece ~33% y todo debe caber en localStorage (~5MB).
-const MAX_PDF_BYTES = 2.5 * 1024 * 1024;
+// Con Supabase: hasta 25MB (se sube a Storage). Sin Supabase: 2.5MB (límite de localStorage).
+const MAX_PDF_BYTES = isSupabaseEnabled ? 25 * 1024 * 1024 : 2.5 * 1024 * 1024;
+const MAX_LABEL = isSupabaseEnabled ? '25MB' : '2.5MB';
 
 /**
  * Campo para el PDF descargable: subir desde el equipo (data URL) o pegar una URL externa.
@@ -24,21 +26,35 @@ export default function PdfUpload({ label, value, fileName, onChange, hint }) {
       return;
     }
     if (file.size > MAX_PDF_BYTES) {
-      setError(`El PDF pesa ${(file.size / 1024 / 1024).toFixed(1)}MB. El máximo es 2.5MB — compórtalo o usa el modo URL con un enlace externo (Google Drive, Dropbox...).`);
+      setError(`El PDF pesa ${(file.size / 1024 / 1024).toFixed(1)}MB. El máximo es ${MAX_LABEL} — compórtalo o usa el modo URL con un enlace externo (Google Drive, Dropbox...).`);
       return;
     }
     setError('');
     setLoading(true);
-    const reader = new FileReader();
-    reader.onload = () => {
-      onChange(reader.result, file.name);
-      setLoading(false);
-    };
-    reader.onerror = () => {
-      setError('No se pudo leer el archivo.');
-      setLoading(false);
-    };
-    reader.readAsDataURL(file);
+
+    if (isSupabaseEnabled) {
+      // Upload to Supabase Storage → real URL, visible to all visitors
+      const path = `pdfs/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+      supabase.storage.from('media').upload(path, file, { contentType: 'application/pdf' })
+        .then(({ error: upErr }) => {
+          if (upErr) throw new Error(upErr.message);
+          const { data } = supabase.storage.from('media').getPublicUrl(path);
+          onChange(data.publicUrl, file.name);
+        })
+        .catch((e) => setError(`No se pudo subir el PDF: ${e.message}`))
+        .finally(() => setLoading(false));
+    } else {
+      const reader = new FileReader();
+      reader.onload = () => {
+        onChange(reader.result, file.name);
+        setLoading(false);
+      };
+      reader.onerror = () => {
+        setError('No se pudo leer el archivo.');
+        setLoading(false);
+      };
+      reader.readAsDataURL(file);
+    }
     if (inputRef.current) inputRef.current.value = '';
   };
 
@@ -101,7 +117,7 @@ export default function PdfUpload({ label, value, fileName, onChange, hint }) {
             <>
               <FileText className="w-5 h-5 text-customOlive-600" />
               <span className="text-sm font-semibold text-slate-700">Haz clic o arrastra tu PDF aquí</span>
-              <span className="text-xs text-slate-400">Máximo 2.5MB · para archivos más grandes usa el modo URL</span>
+              <span className="text-xs text-slate-400">Máximo {MAX_LABEL} · para archivos más grandes usa el modo URL</span>
             </>
           )}
           <input

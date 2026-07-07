@@ -1,5 +1,8 @@
-// Editable content for the Home page, stored in localStorage (same pattern as blog articles).
+// Editable content for the Home page.
+// With Supabase configured: stored in the `site_content` table (visible to ALL visitors).
+// Without Supabase: falls back to localStorage (local/demo mode).
 import { useSyncExternalStore } from 'react';
+import { supabase, isSupabaseEnabled } from './supabaseClient';
 
 export const defaultHomeContent = {
   hero: {
@@ -246,13 +249,53 @@ export function useHomeContent() {
   return useSyncExternalStore(subscribe, getSnapshot);
 }
 
-export function saveHomeContent(content) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
-  invalidate();
+/* ---------- Supabase sync ---------- */
+
+// On page load, fetch the published content from Supabase and refresh the UI.
+// localStorage acts as an instant-render cache while the fetch completes.
+async function loadFromSupabase() {
+  if (!isSupabaseEnabled) return;
+  try {
+    const { data, error } = await supabase
+      .from('site_content')
+      .select('value')
+      .eq('key', 'home')
+      .maybeSingle();
+    if (error) throw error;
+    if (data?.value) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data.value));
+      invalidate();
+    }
+  } catch (e) {
+    console.warn('No se pudo cargar el contenido desde Supabase:', e.message);
+  }
 }
 
-export function resetHomeContent() {
+if (typeof window !== 'undefined') {
+  loadFromSupabase();
+}
+
+/**
+ * Saves content. With Supabase: publishes for ALL visitors (throws on failure).
+ * Always keeps the localStorage cache updated.
+ */
+export async function saveHomeContent(content) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+  invalidate();
+  if (isSupabaseEnabled) {
+    const { error } = await supabase
+      .from('site_content')
+      .upsert({ key: 'home', value: content, updated_at: new Date().toISOString() });
+    if (error) throw new Error(`No se pudo publicar en Supabase: ${error.message}`);
+  }
+}
+
+export async function resetHomeContent() {
   localStorage.removeItem(STORAGE_KEY);
   invalidate();
+  if (isSupabaseEnabled) {
+    const { error } = await supabase.from('site_content').delete().eq('key', 'home');
+    if (error) throw new Error(`No se pudo restaurar en Supabase: ${error.message}`);
+  }
   return defaultHomeContent;
 }

@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Variables de entorno (llaves de Supabase)
+.env
+.env.production

@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Plus, Trash2, Save, RotateCcw, CheckCircle } from 'lucide-react';
-import { getHomeContent, saveHomeContent, resetHomeContent } from '../utils/homeContent';
+import { getHomeContent, saveHomeContent, resetHomeContent, useHomeContent } from '../utils/homeContent';
 import ImageUpload from '../components/admin/ImageUpload';
 import PdfUpload from '../components/admin/PdfUpload';
 
@@ -83,52 +83,74 @@ function Section({ title, isOpen, onToggle, children }) {
 
 export default function HomeEditor() {
   const [content, setContent] = useState(() => getHomeContent());
+  const [dirty, setDirty] = useState(false);
   const [openSection, setOpenSection] = useState('hero');
   const [successMsg, setSuccessMsg] = useState('');
+
+  // While there are no unsaved edits, follow the published content
+  // (e.g. when Supabase finishes loading right after opening the editor).
+  const published = useHomeContent();
+  useEffect(() => {
+    if (!dirty) setContent(published);
+  }, [published, dirty]);
 
   const toggle = (key) => setOpenSection(openSection === key ? null : key);
 
   // Immutable update helpers
-  const set = (section, field, value) =>
+  const set = (section, field, value) => {
+    setDirty(true);
     setContent(prev => ({ ...prev, [section]: { ...prev[section], [field]: value } }));
+  };
 
-  const setListItem = (section, listField, index, field, value) =>
+  const setListItem = (section, listField, index, field, value) => {
+    setDirty(true);
     setContent(prev => {
       const list = prev[section][listField].map((item, i) =>
         i === index ? (field === null ? value : { ...item, [field]: value }) : item
       );
       return { ...prev, [section]: { ...prev[section], [listField]: list } };
     });
+  };
 
-  const addListItem = (section, listField, empty) =>
+  const addListItem = (section, listField, empty) => {
+    setDirty(true);
     setContent(prev => ({
       ...prev,
       [section]: { ...prev[section], [listField]: [...prev[section][listField], empty] },
     }));
+  };
 
-  const removeListItem = (section, listField, index) =>
+  const removeListItem = (section, listField, index) => {
+    setDirty(true);
     setContent(prev => ({
       ...prev,
       [section]: { ...prev[section], [listField]: prev[section][listField].filter((_, i) => i !== index) },
     }));
+  };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     try {
-      saveHomeContent(content);
-      setSuccessMsg('¡Cambios de la página de inicio guardados con éxito!');
-    } catch {
+      await saveHomeContent(content);
+      setDirty(false);
+      setSuccessMsg('¡Cambios publicados con éxito!');
+    } catch (err) {
       setSuccessMsg('');
-      window.alert('No se pudo guardar: el contenido supera el límite de almacenamiento del navegador. Reduce el tamaño de las imágenes o del PDF (o usa enlaces externos).');
+      window.alert(err.message || 'No se pudo guardar: el contenido supera el límite de almacenamiento del navegador. Reduce el tamaño de las imágenes o del PDF (o usa enlaces externos).');
       return;
     }
     setTimeout(() => setSuccessMsg(''), 3000);
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     if (window.confirm('¿Restaurar todo el contenido de la página de inicio a los valores originales? Esta acción no se puede deshacer.')) {
-      setContent(resetHomeContent());
-      setSuccessMsg('Contenido restaurado a los valores originales.');
-      setTimeout(() => setSuccessMsg(''), 3000);
+      try {
+        setContent(await resetHomeContent());
+        setDirty(false);
+        setSuccessMsg('Contenido restaurado a los valores originales.');
+        setTimeout(() => setSuccessMsg(''), 3000);
+      } catch (err) {
+        window.alert(err.message);
+      }
     }
   };
 
@@ -191,10 +213,13 @@ export default function HomeEditor() {
             label="PDF descargable (la guía)"
             value={leadMagnet.pdfFile}
             fileName={leadMagnet.pdfName}
-            onChange={(file, name) => setContent(prev => ({
-              ...prev,
-              leadMagnet: { ...prev.leadMagnet, pdfFile: file, pdfName: name || prev.leadMagnet.pdfName },
-            }))}
+            onChange={(file, name) => {
+              setDirty(true);
+              setContent(prev => ({
+                ...prev,
+                leadMagnet: { ...prev.leadMagnet, pdfFile: file, pdfName: name || prev.leadMagnet.pdfName },
+              }));
+            }}
             hint="El visitante podrá descargarlo después de dejar su correo."
           />
         </Section>

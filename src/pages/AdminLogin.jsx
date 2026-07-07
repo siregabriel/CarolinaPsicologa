@@ -4,20 +4,35 @@ import { Lock, LogIn, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { supabase, isSupabaseEnabled } from '../utils/supabaseClient';
 
 export default function AdminLogin() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Simple password challenge (hardcoded for database-less setup)
-    if (password === 'carolina2024') {
-      localStorage.setItem('admin_auth', 'true');
-      navigate('/admin/dashboard');
+    if (isSupabaseEnabled) {
+      // Real authentication via Supabase Auth
+      setLoading(true);
+      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+      setLoading(false);
+      if (authError) {
+        setError('Credenciales incorrectas. Por favor intenta de nuevo.');
+      } else {
+        navigate('/admin/dashboard');
+      }
     } else {
-      setError('Contraseña incorrecta. Por favor intenta de nuevo.');
+      // Local/demo mode fallback (no database configured)
+      if (password === 'carolina2024') {
+        localStorage.setItem('admin_auth', 'true');
+        navigate('/admin/dashboard');
+      } else {
+        setError('Contraseña incorrecta. Por favor intenta de nuevo.');
+      }
     }
   };
 
@@ -49,8 +64,21 @@ export default function AdminLogin() {
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
+          {isSupabaseEnabled && (
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Correo electrónico</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                placeholder="admin@carolinaavila.com"
+                required
+                className="w-full px-5 py-4 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-customOlive-600 bg-slate-50 focus:bg-white transition-all text-slate-800"
+              />
+            </div>
+          )}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Contraseña Maestra</label>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">{isSupabaseEnabled ? 'Contraseña' : 'Contraseña Maestra'}</label>
             <input
               type="password"
               value={password}
@@ -64,9 +92,10 @@ export default function AdminLogin() {
 
           <button
             type="submit"
-            className="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-customOlive-600/20 text-sm font-bold text-white bg-customOlive-600 hover:bg-customOlive-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-customOlive-500 transition-colors cursor-pointer"
+            disabled={loading}
+            className="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-customOlive-600/20 text-sm font-bold text-white bg-customOlive-600 hover:bg-customOlive-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-customOlive-500 transition-colors cursor-pointer disabled:opacity-60"
           >
-            Iniciar Sesión <LogIn className="w-4 h-4" />
+            {loading ? 'Verificando…' : 'Iniciar Sesión'} <LogIn className="w-4 h-4" />
           </button>
         </form>
       </motion.div>

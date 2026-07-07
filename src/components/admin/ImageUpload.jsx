@@ -1,5 +1,17 @@
 import { useRef, useState } from 'react';
 import { Upload, Link as LinkIcon, Image as ImageIcon, X, Loader2 } from 'lucide-react';
+import { supabase, isSupabaseEnabled } from '../../utils/supabaseClient';
+
+/** Uploads a data-URL image to Supabase Storage and returns its public URL. */
+async function uploadToStorage(dataUrl) {
+  const blob = await (await fetch(dataUrl)).blob();
+  const ext = blob.type.includes('webp') ? 'webp' : 'jpg';
+  const path = `images/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const { error } = await supabase.storage.from('media').upload(path, blob, { contentType: blob.type });
+  if (error) throw new Error(`No se pudo subir la imagen: ${error.message}`);
+  const { data } = supabase.storage.from('media').getPublicUrl(path);
+  return data.publicUrl;
+}
 
 /**
  * Reads an image file, resizes it (max side = maxSize) and compresses it
@@ -66,8 +78,11 @@ export default function ImageUpload({ label, value, onChange, hint }) {
     setLoading(true);
     try {
       const dataUrl = await processImage(file);
-      // localStorage safety check (~5MB total). Warn above ~800KB per image.
-      if (dataUrl.length > 800 * 1024) {
+      if (isSupabaseEnabled) {
+        // Upload to Supabase Storage → real URL, visible to all visitors
+        onChange(await uploadToStorage(dataUrl));
+      } else if (dataUrl.length > 800 * 1024) {
+        // localStorage safety check (~5MB total). Warn above ~800KB per image.
         setError('La imagen es muy pesada incluso comprimida. Intenta con una más pequeña.');
       } else {
         onChange(dataUrl);

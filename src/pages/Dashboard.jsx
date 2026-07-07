@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LogOut, Plus, Edit2, Trash2, CheckCircle, Save, ArrowLeft, Home } from 'lucide-react';
-import { getArticles, saveArticle, deleteArticle } from '../utils/storage';
+import { useArticles, saveArticle, deleteArticle } from '../utils/storage';
+import { supabase, isSupabaseEnabled } from '../utils/supabaseClient';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import HomeEditor from './HomeEditor';
@@ -11,7 +12,7 @@ import ImageUpload from '../components/admin/ImageUpload';
 export default function Dashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('blog'); // 'blog' | 'home'
-  const [articles, setArticles] = useState([]);
+  const articles = useArticles();
   const [isEditing, setIsEditing] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   
@@ -26,15 +27,17 @@ export default function Dashboard() {
 
   // Authentication Check
   useEffect(() => {
-    const auth = localStorage.getItem('admin_auth');
-    if (auth !== 'true') {
+    if (isSupabaseEnabled) {
+      supabase.auth.getSession().then(({ data }) => {
+        if (!data.session) navigate('/admin');
+      });
+    } else if (localStorage.getItem('admin_auth') !== 'true') {
       navigate('/admin');
-    } else {
-      setArticles(getArticles());
     }
   }, [navigate]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (isSupabaseEnabled) await supabase.auth.signOut();
     localStorage.removeItem('admin_auth');
     navigate('/admin');
   };
@@ -61,14 +64,17 @@ export default function Dashboard() {
     setIsEditing(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este artículo permanentemente?")) {
-      deleteArticle(id);
-      setArticles(getArticles());
+      try {
+        await deleteArticle(id);
+      } catch (err) {
+        window.alert(err.message);
+      }
     }
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     const newArticle = {
       id: currentId,
@@ -79,11 +85,14 @@ export default function Dashboard() {
       excerpt,
       content,
     };
-    saveArticle(newArticle);
-    setArticles(getArticles());
-    setIsEditing(false);
-    setSuccessMsg('¡Artículo guardado con éxito!');
-    setTimeout(() => setSuccessMsg(''), 3000);
+    try {
+      await saveArticle(newArticle);
+      setIsEditing(false);
+      setSuccessMsg('¡Artículo guardado con éxito!');
+      setTimeout(() => setSuccessMsg(''), 3000);
+    } catch (err) {
+      window.alert(err.message);
+    }
   };
 
   return (

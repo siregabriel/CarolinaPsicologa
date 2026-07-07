@@ -1,19 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getArticles } from '../utils/storage';
+import { useArticles } from '../utils/storage';
 import { ArrowLeft, Clock, Facebook, Twitter, Linkedin, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 
 export default function Article() {
   const { id } = useParams();
-  const [article, setArticle] = useState(null);
+  const articles = useArticles();
+  const article = articles.find(a => a.id.toString() === id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const articles = getArticles();
-    const found = articles.find(a => a.id.toString() === id);
-    setArticle(found);
   }, [id]);
 
   if (!article) {
