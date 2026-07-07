@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Calendar, Clock, ExternalLink, Send } from 'lucide-react';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 export default function Contact() {
-  const content = getHomeContent().contact;
+  const content = useHomeContent().contact;
   return (
     <section id="contact" className="py-24 bg-slate-50 relative overflow-hidden">
       {/* Decorative blobs */}

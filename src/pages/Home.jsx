@@ -9,11 +9,11 @@ import FAQ from '../components/FAQ';
 import Contact from '../components/Contact';
 import WhatsAppButton from '../components/WhatsAppButton';
 import SEO from '../components/SEO';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 export default function Home() {
   // Keep structured data in sync with admin-editable contact info
-  const contactContent = getHomeContent().contact;
+  const contactContent = useHomeContent().contact;
   const phoneE164 = '+52' + (contactContent.phone || '').replace(/\D/g, '');
 
   // Enhanced structured data with multiple schemas

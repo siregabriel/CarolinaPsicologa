@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { User, Users, Brain } from 'lucide-react';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 const icons = [User, Users, Brain];
 const colors = [
@@ -10,7 +10,7 @@ const colors = [
 ];
 
 export default function Services() {
-  const content = getHomeContent().services;
+  const content = useHomeContent().services;
   const services = content.items.map((item, i) => ({
     ...item,
     icon: icons[i % icons.length],

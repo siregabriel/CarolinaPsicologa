@@ -1,4 +1,5 @@
 // Editable content for the Home page, stored in localStorage (same pattern as blog articles).
+import { useSyncExternalStore } from 'react';
 
 export const defaultHomeContent = {
   hero: {
@@ -213,11 +214,45 @@ export function getHomeContent() {
   }
 }
 
+/* ---------- Reactive store: components re-render when content is saved ---------- */
+
+let cache = null;
+const listeners = new Set();
+
+function invalidate() {
+  cache = null;
+  listeners.forEach(fn => fn());
+}
+
+// Sync across browser tabs (e.g. admin open in one tab, site in another)
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY) invalidate();
+  });
+}
+
+function subscribe(fn) {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
+
+function getSnapshot() {
+  if (cache === null) cache = getHomeContent();
+  return cache;
+}
+
+/** Hook: returns home content and re-renders automatically when it changes. */
+export function useHomeContent() {
+  return useSyncExternalStore(subscribe, getSnapshot);
+}
+
 export function saveHomeContent(content) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+  invalidate();
 }
 
 export function resetHomeContent() {
   localStorage.removeItem(STORAGE_KEY);
+  invalidate();
   return defaultHomeContent;
 }

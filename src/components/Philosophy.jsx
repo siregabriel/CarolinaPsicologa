@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 export default function Philosophy() {
   const [openIndex, setOpenIndex] = useState(null);
-  const content = getHomeContent().philosophy;
+  const content = useHomeContent().philosophy;
   const therapies = content.therapies;
 
   const toggleAccordion = (index) => {

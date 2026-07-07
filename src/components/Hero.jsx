@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 export default function Hero() {
-  const content = getHomeContent().hero;
+  const content = useHomeContent().hero;
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-50 pt-32 pb-20">
       {/* Background Decorative Elements */}

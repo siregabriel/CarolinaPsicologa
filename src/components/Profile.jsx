@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { Award, GraduationCap, Clock, CheckCircle2 } from 'lucide-react';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 export default function Profile() {
-  const content = getHomeContent().profile;
+  const content = useHomeContent().profile;
   return (
     <section id="profile" className="py-24 bg-slate-50 overflow-hidden" aria-labelledby="profile-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

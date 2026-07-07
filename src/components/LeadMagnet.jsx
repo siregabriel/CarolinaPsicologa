@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Mail, BookOpen, CheckCircle } from 'lucide-react';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 export default function LeadMagnet() {
-  const content = getHomeContent().leadMagnet;
+  const content = useHomeContent().leadMagnet;
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 

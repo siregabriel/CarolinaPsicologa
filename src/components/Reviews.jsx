@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import { Star, CheckCircle2, ExternalLink } from 'lucide-react';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 const avatarColors = ['bg-customBrown-600', 'bg-blue-600', 'bg-rose-600', 'bg-customOlive-600'];
 
 export default function Reviews() {
-  const content = getHomeContent().reviews;
+  const content = useHomeContent().reviews;
   const searchUrl = content.googleUrl;
   const reviews = content.items.map((item, i) => ({
     ...item,

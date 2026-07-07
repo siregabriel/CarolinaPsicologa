@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { getHomeContent } from '../utils/homeContent';
+import { useHomeContent } from '../utils/homeContent';
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
-  const content = getHomeContent().faq;
+  const content = useHomeContent().faq;
   const faqs = content.items;
 
   const toggleOpen = (index) => {
